@@ -1,0 +1,10 @@
+coqui-tts
+gradio>=4.0
+soundfile
+librosa
+pandas
+numpy
+tqdm
+huggingface_hub
+torch>=2.0
+torchaudio>=2.0

@@ -1,0 +1,19 @@
+# Modèle (trop lourd pour GitHub)
+model/
+*.pth
+*.zip
+
+# Données
+data/
+outputs/
+*.wav
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+
+# Kaggle
+/kaggle/
