@@ -78,7 +78,7 @@ python src/inference.py \
 - Format : LJSpeech (id|texte|texte)
 
 ## Modèle sur HuggingFace
-🤗 [chaimaehde/xTTS_Darija_3h](https://huggingface.co/chaimaehde/xTTS_Darija_3h)
+ [chaimaehde/xTTS_Darija_3h](https://huggingface.co/chaimaehde/xTTS_Darija_3h)
 
 ## Auteurs
 
@@ -97,4 +97,4 @@ Année universitaire 2024–2025
 - **Coqui Trainer** : framework de fine-tuning utilisé pour l'entraînement
 - **HuggingFace Hub** : hébergement du modèle fine-tuné
 - **Kaggle** : plateforme GPU utilisée pour le fine-tuning (T4, 16GB VRAM)
-"""
+
