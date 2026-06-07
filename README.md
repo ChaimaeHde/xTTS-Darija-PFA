@@ -23,13 +23,13 @@ sur la synthèse vocale pour les dialectes arabes.
 │   └── inference.py        # Inférence / synthèse vocale
 └── model/                  # (non inclus) model.pth + config.json + vocab.json
 ```
-##  Démarrage rapide — Cloner et tester en 3 commandes
+##  Démarrage rapide — Cloner et tester en 3 commandes sur colab
 
 ```bash
-git clone https://github.com/chaimaehde/xTTS_Darija_3h
-cd xTTS_Darija_3h
-pip install -r requirements.txt
-python app.py
+!git clone https://github.com/chaimaehde/xTTS_Darija_3h
+%cd xTTS_Darija_3h
+!pip install -r requirements.txt
+!python app.py
 ```
 >  Le modèle (~5.1 GB) sera **téléchargé automatiquement** depuis HuggingFace
 > au premier lancement. Un lien public Gradio sera généré pour tester l'interface.
