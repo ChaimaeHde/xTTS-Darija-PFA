@@ -81,4 +81,20 @@ python src/inference.py \
 🤗 [chaimaehde/xTTS_Darija_3h](https://huggingface.co/chaimaehde/xTTS_Darija_3h)
 
 ## Auteurs
-Projet Master 2 — Synthèse vocale Darija
+
+| Nom | Formation |
+|-----|-----------|
+| **Haouach Loubna** | 2ème année INDIA-SD — ENSAM Rabat |
+| **Haddouche Chaimae** | 2ème année INDIA-SD — ENSAM Rabat |
+
+Projet réalisé dans le cadre du projet de fin d'année 
+**École Nationale Supérieure d'Arts et Métiers — Rabat, Maroc**  
+Année universitaire 2024–2025
+
+## Crédits
+- **XTTS-v2** : [Coqui TTS](https://github.com/coqui-ai/TTS) — modèle de synthèse vocale multilingue
+- **DODa** : [Darija Open Dataset](https://github.com/AIOXLABS/DODa) — dataset audio Darija marocain
+- **Coqui Trainer** : framework de fine-tuning utilisé pour l'entraînement
+- **HuggingFace Hub** : hébergement du modèle fine-tuné
+- **Kaggle** : plateforme GPU utilisée pour le fine-tuning (T4, 16GB VRAM)
+"""
