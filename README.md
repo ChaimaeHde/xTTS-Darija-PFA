@@ -14,7 +14,7 @@ sur la synthèse vocale pour les dialectes arabes.
 | Durée training | ~2h30 |
 
 ## Structure du projet
-.
+```bash
 ├── app.py                  # Interface Gradio (lancement)
 ├── requirements.txt        # Dépendances
 ├── src/
@@ -22,39 +22,17 @@ sur la synthèse vocale pour les dialectes arabes.
 │   ├── finetuning.py       # Fine-tuning XTTS-v2
 │   └── inference.py        # Inférence / synthèse vocale
 └── model/                  # (non inclus) model.pth + config.json + vocab.json
+```
+##  Démarrage rapide — Cloner et tester en 3 commandes
 
-## Installation
-```bash
+\```bash
+git clone https://github.com/chaimaehde/xTTS_Darija_3h
+cd xTTS_Darija_3h
 pip install -r requirements.txt
-```
-
-## Télécharger le modèle
-```python
-from huggingface_hub import hf_hub_download
-import zipfile
-
-path = hf_hub_download(
-    repo_id  = "chaimaehde/xTTS_Darija_3h",
-    filename = "xtts_M1_best_model.zip",
-    local_dir= "./model"
-)
-with zipfile.ZipFile(path, "r") as zf:
-    zf.extractall("./model")
-```
-
-## Lancer l'interface
-```bash
 python app.py
-```
-
-## Inférence en ligne de commande
-```bash
-python src/inference.py \
-  --text "مرحبا، كيف داير؟" \
-  --speaker_wav reference.wav \
-  --output output.wav \
-  --model_dir ./model
-```
+\```
+>  Le modèle (~5.1 GB) sera **téléchargé automatiquement** depuis HuggingFace
+> au premier lancement. Un lien public Gradio sera généré pour tester l'interface.
 
 ## Hyperparamètres du fine-tuning
 | Paramètre | Valeur | Justification |
