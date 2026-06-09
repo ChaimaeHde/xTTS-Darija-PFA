@@ -7,21 +7,25 @@ import gradio as gr
 os.environ["COQUI_TOS_AGREED"] = "1"
 
 # ── Téléchargement automatique depuis HuggingFace ────────────────────────────
-HF_BASE  = "https://huggingface.co/chaimaehde/xTTS_Darija_3h/resolve/main"
+from huggingface_hub import hf_hub_download
+import zipfile
+
 base_path = Path("/content/model")
 base_path.mkdir(exist_ok=True)
 
-for name, url in [
-    ("config.json", f"{HF_BASE}/config.json"),
-    ("vocab.json",  f"{HF_BASE}/vocab.json"),
-    ("model.pth",   f"{HF_BASE}/model.pth"),
-]:
-    dest = base_path / name
-    if not dest.exists():
-        print(f"⬇️  {name}...")
-        torch.hub.download_url_to_file(url, str(dest))
-    else:
-        print(f"⏭️  {name} déjà présent")
+if not (base_path / "model.pth").exists():
+    print("⬇️  Téléchargement du modèle (~5.1 GB)...")
+    zip_path = hf_hub_download(
+        repo_id   = "chaimaehde/xTTS_Darija_3h",
+        filename  = "xtts_M1_best_model.zip",
+        local_dir = str(base_path),
+    )
+    print("📦 Extraction...")
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        zf.extractall(str(base_path))
+    print("✅ Modèle prêt !")
+else:
+    print("✅ Modèle déjà présent")
 
 # ── Chargement ────────────────────────────────────────────────────────────────
 print("⏳ Chargement du modèle...")
