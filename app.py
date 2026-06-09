@@ -5,20 +5,50 @@ Usage : python app.py
 """
 
 import os
+import zipfile
 import tempfile
 import gradio as gr
-from src.inference import load_model, synthesize
 
 os.environ["COQUI_TOS_AGREED"] = "1"
 
-# Charger le modèle une seule fois au démarrage
-MODEL_DIR   = os.getenv("MODEL_DIR", "./model")
+MODEL_DIR = os.getenv("MODEL_DIR", "./model")
+HF_REPO   = "chaimaehde/xTTS_Darija_3h"
+HF_FILE   = "xtts_M1_best_model.zip"
+
+# ── Téléchargement automatique du modèle ─────────────────────────────────────
+def download_model():
+    if os.path.exists(os.path.join(MODEL_DIR, "model.pth")):
+        print("✅ Modèle déjà présent")
+        return
+    try:
+        from huggingface_hub import hf_hub_download
+    except ImportError:
+        import subprocess, sys
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q",
+                        "huggingface_hub"], check=True)
+        from huggingface_hub import hf_hub_download
+
+    os.makedirs(MODEL_DIR, exist_ok=True)
+    print(f"⬇️  Téléchargement du modèle depuis HuggingFace (~5.1 GB)...")
+    zip_path = hf_hub_download(
+        repo_id   = HF_REPO,
+        filename  = HF_FILE,
+        local_dir = MODEL_DIR,
+    )
+    print("📦 Extraction...")
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        zf.extractall(MODEL_DIR)
+    print("✅ Modèle prêt !")
+
+download_model()
+
+# ── Chargement du modèle ──────────────────────────────────────────────────────
+from src.inference import load_model, synthesize
 model, config = load_model(MODEL_DIR)
 
-
+# ── Callback Gradio ───────────────────────────────────────────────────────────
 def generate_speech(text: str, speaker_wav: str):
-    """Callback Gradio : génère l'audio depuis le texte."""
-    if not text.strip():
+    if not text or not text.strip():
         return None
     if speaker_wav is None:
         return None
@@ -26,16 +56,13 @@ def generate_speech(text: str, speaker_wav: str):
     synthesize(model, config, text, speaker_wav, tmp.name)
     return tmp.name
 
-
-# ── Interface ────────────────────────────────────────────────────────────────
+# ── Interface ─────────────────────────────────────────────────────────────────
 with gr.Blocks(title="XTTS-v2 Darija M1", theme=gr.themes.Soft()) as demo:
-
     gr.Markdown("""
     # 🎙️ XTTS-v2 Fine-tuné — Darija Marocain (M1, 3h DODa)
     Synthèse vocale en Darija (arabe marocain) avec clonage vocal.
     Uploadez un audio de référence du locuteur M1, entrez votre texte et générez !
     """)
-
     with gr.Row():
         with gr.Column(scale=1):
             text_input = gr.Textbox(
@@ -49,7 +76,6 @@ with gr.Blocks(title="XTTS-v2 Darija M1", theme=gr.themes.Soft()) as demo:
                 type="filepath",
             )
             btn = gr.Button("🔊 Générer l'audio", variant="primary", size="lg")
-
         with gr.Column(scale=1):
             audio_out = gr.Audio(label="🔈 Audio généré", type="filepath")
 
@@ -64,7 +90,6 @@ with gr.Blocks(title="XTTS-v2 Darija M1", theme=gr.themes.Soft()) as demo:
         inputs=[text_input],
         label="Exemples de phrases Darija",
     )
-
     gr.Markdown("""
     ---
     **Modèle** : XTTS-v2 fine-tuné sur ~3h d'audio DODa (locuteur M1)  
@@ -72,7 +97,6 @@ with gr.Blocks(title="XTTS-v2 Darija M1", theme=gr.themes.Soft()) as demo:
     **Sample rate** : 24 000 Hz  
     **Projet** : Fine-tuning XTTS pour le Darija — Master 2
     """)
-
     btn.click(fn=generate_speech, inputs=[text_input, ref_audio], outputs=audio_out)
 
 if __name__ == "__main__":
