@@ -26,8 +26,8 @@ sur la synthèse vocale pour les dialectes arabes.
 ##  Démarrage rapide — Cloner et tester en 3 commandes sur colab
 
 ```bash
-!git clone https://github.com/chaimaehde/xTTS_Darija_3h
-%cd xTTS_Darija_3h
+!git clone https://github.com/ChaimaeHde/xTTS-Darija-PFA
+%cd xTTS-Darija-PFA
 !pip install -r requirements.txt
 !python app.py
 ```
