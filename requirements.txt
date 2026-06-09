@@ -3,8 +3,9 @@ gradio>=4.0
 soundfile
 librosa
 pandas
-numpy
+numpy<2.0
 tqdm
 huggingface_hub
 torch>=2.0
 torchaudio>=2.0
+transformers==4.40.0
